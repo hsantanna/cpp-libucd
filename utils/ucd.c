@@ -58,11 +58,11 @@ usage (char *progname)
 typedef struct {
     char *modname;
     size_t bfsize;
-    int (* init) (void * pdet);
-    int (* clear) (void * pdet);
-    int (* parse) (void * pdet, const char* data, size_t len);
-    int (* end) (void * pdet);
-    int (* results) (void * pdet, char* namebuf, size_t buflen);
+    int (* init) (void ** pdet);
+    void (* clear) (void ** pdet);
+    int (* parse) (void ** pdet, const char* data, size_t len);
+    int (* end) (void ** pdet);
+    int (* results) (void ** pdet, char* namebuf, size_t buflen);
     void *ptr;
 } chardet_mod_t;
 
@@ -141,7 +141,9 @@ main (int argc, char * argv[])
 {
     char encname[UCD_MAX_ENCODING_NAME];
     char flg_useicu = 0;
-    void * det[NUM_ARRAY(chardet_funcs)];
+    //void * det[NUM_ARRAY(chardet_funcs)];
+    chardet_t det[NUM_ARRAY(chardet_funcs)];
+
     size_t maxmod = 1;
     int i;
     int j;
